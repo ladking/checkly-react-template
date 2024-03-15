@@ -1,12 +1,32 @@
-name: Checkly CI Workflow
-on: [push]
+name: Checkly Deployment
 
+on:
+  push:
+    branches: [main] # You can adjust this to trigger on specific branches
+
+    # You cam store your checkly API key as secrets in your github account repo setting
+    #to get your secret keys from checkly, You cn find your checkly api key in  https://app.checklyhq.com/settings/user/api-keys
+    # and your account id in https://app.checklyhq.com/settings/account/general
+
+env:
+  CHECKLY_API_KEY: ${{ secrets.CHECKLY_API_KEY }}
+  CHECKLY_ACCOUNT_ID: ${{ secrets.CHECKLY_ACCOUNT_ID }}
 jobs:
-  run-checkly:
+  deploy_checks:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Install dependencies
-        run: yarn add checkly
-      - name: Login to checkly
-        run: npx checkly login
+      - uses: actions/checkout@v3
+      - name: Install-dependencies # Installs all required dependencies e.g (checkly, playwright e.t.c)
+        run: yarn install
+
+      - name: Run-all-checks
+        run: npx checkly test
+
+      #   - name: Login to Checkly
+      #     run: echo "$CHECKLY_API_KEY" | base64 -d |  tr -d '\n' > checkly_api_key.txt
+      - name: deploy tests to Checkly
+        run: |
+          npx checkly deploy --force
+        # --force skips the confirmation dialog
+    #   - name: Clean Up (optional)
+    #     run: rm checkly_api_key.txt # Removes the temporary API key file
