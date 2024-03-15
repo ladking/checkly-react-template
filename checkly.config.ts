@@ -20,7 +20,7 @@ export default defineConfig({
             sendFailure: true,
             sendDegraded: false,
           },
-          "ladigrillo48@gmaill.com"
+          process.env.ALERT_EMAIL ?? ""
         ),
       ],
     },
