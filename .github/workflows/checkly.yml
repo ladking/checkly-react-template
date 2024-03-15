@@ -11,6 +11,7 @@ on:
 env:
   CHECKLY_API_KEY: ${{ secrets.CHECKLY_API_KEY }}
   CHECKLY_ACCOUNT_ID: ${{ secrets.CHECKLY_ACCOUNT_ID }}
+
 jobs:
   deploy_checks:
     runs-on: ubuntu-latest
@@ -20,7 +21,7 @@ jobs:
         run: yarn install
 
       - name: Run-all-checks
-        run: npx checkly test
+        run: npx checkly test --verbose
 
       - name: deploy tests to Checkly
         run: npx checkly deploy --force
