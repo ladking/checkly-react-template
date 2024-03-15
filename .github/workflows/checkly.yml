@@ -1,0 +1,12 @@
+name: Checkly CI Workflow
+on: [push]
+
+jobs:
+  run-checkly:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install dependencies
+        run: yarn add checkly
+      - name: Login to checkly
+        run: npx checkly login
