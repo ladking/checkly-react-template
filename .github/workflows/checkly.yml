@@ -22,11 +22,5 @@ jobs:
       - name: Run-all-checks
         run: npx checkly test
 
-      #   - name: Login to Checkly
-      #     run: echo "$CHECKLY_API_KEY" | base64 -d |  tr -d '\n' > checkly_api_key.txt
       - name: deploy tests to Checkly
-        run: |
-          npx checkly deploy --force
-        # --force skips the confirmation dialog
-    #   - name: Clean Up (optional)
-    #     run: rm checkly_api_key.txt # Removes the temporary API key file
+        run: npx checkly deploy --force
